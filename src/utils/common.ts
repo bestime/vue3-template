@@ -8,12 +8,13 @@ export function resolveRelativeDir() {
 
   prefix += '/'
 
-  return prefix.replace(/\/\//g, '/')
+  return prefix.replace(/\/+/g, '/')
 }
 
 /** 静态资源目录 */
 export const RELATIVE_DIR = resolveRelativeDir()
 
 export function resolveTsStaticPath(url: string): string {
-  return RELATIVE_DIR + url
+  url = RELATIVE_DIR + url
+  return url.replace(/\/+/g, '/')
 }

@@ -28,13 +28,14 @@
     ]
   },
   "include": [
+    "typings/",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "src/**/*.vue"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/utils/bestime",
+    "src/**/*.js"
   ]
 }

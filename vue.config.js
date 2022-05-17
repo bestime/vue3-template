@@ -5,6 +5,18 @@ const isProduction = process.env.NODE_ENV === 'production'
 function getChainWebpack(config) {
   config.plugins.delete('preload')
   config.plugins.delete('prefetch')
+
+  config.plugin('html').tap((args) => {
+    args[0].minify = {
+      removeComments: false,
+      collapseWhitespace: false,
+      removeAttributeQuotes: false,
+    }
+    args[0].hash = true
+    args[0].inject = 'body'
+    args[0].PACK_TIME = +new Date()
+    return args
+  })
 }
 
 function gtPublicPath() {
@@ -21,18 +33,16 @@ function gtPublicPath() {
 
 /** 项目静态资源相对路径前缀 */
 const CSS_DIR = (function () {
-  let res = './'
+  let res = ''
   if (isProduction) {
     if (process.env.VUE_APP_ASSETS_DIR) {
       res = '../../'
     } else {
       res = '../'
     }
-  } else if (routerMode === 'history') {
-    res = '/'
   }
 
-  return res
+  return res.replace(/\/\//g, '/')
 })()
 
 /** 向scss传入通用方法 */
@@ -42,13 +52,24 @@ const scssAdditionalData = `
     $prefix: "${CSS_DIR}";
     @return $prefix + $path;
   }
+
+  /** 像素适配通用方法 */
+  @function pxToRem ($number) {
+    @return $number / 100 + rem;
+  }
 `
 
 module.exports = {
   devServer: {
-    port: 9425,
+    port: 1721,
+    proxy: {
+      '^/(prod-api|product|doc)': {
+        target: 'http://111.9.55.211:30010',
+        changeOrigin: true,
+      },
+    },
   },
-  assetsDir: process.env.VUE_APP_ASSETS_DIR, // 这个路径如果改了，请注意修改 scss的resolveTsStaticPath
+  assetsDir: process.env.VUE_APP_ASSETS_DIR,
   outputDir: 'dist',
   lintOnSave: 'warning',
   filenameHashing: true,

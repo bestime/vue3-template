@@ -118,7 +118,7 @@
 - 不建议将图片、测试json 放在`src`目录里。建议放在`public`静态目录里，因为public文件夹里的内容，不被webpack编译。不然随着项目增大，开发时越来越卡。项目内置scss全局方法`resolveTsStaticPath(按需)`和js方法`resolveScssStaticPath(内置)`用于链接转换
   ```vue
   <template>
-    <img :src="resolveTsStaticPath('static/images/loc.jpg')" style="height: 40px" />
+    <img :src="resolveTsStaticPath('/static/images/loc.jpg')" style="height: 40px" />
   </template>
 
   <script>
@@ -132,7 +132,7 @@
 
   <style scoped lang="scss">
     div {
-      background: url(resolveScssStaticPath('static/images/leida02.png'));
+      background: url(resolveScssStaticPath('/static/images/leida02.png'));
     }
   </style>
   ```
