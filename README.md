@@ -2,9 +2,8 @@
 - 这是一个基于`vue2`的通用项目`模板`
 - 项目文件结束符使用 `LF`，如果是 `CRLF`，请自行配置编辑器、git等工具
 - 路由`history`模式默认配置在服务器下`/app`文件夹下，可修改 `~/.env.production` 文件中`VUE_APP_ROUTER_BASE`为根目录 `"/"` 或其它目录（不可为空）。
-- 代码风格检测使用`eslint+prettier`（编辑器插件自行配置，读取本项目的配置文件）
 - 此项目可`js与ts`混用。
-- 技术栈：`vue`、`vue-router`、`scss`、`js`、`typescript`、`eslint`、`prettier`
+- 技术栈：`vue`、`vue-router`、`scss`、`js`、`typescript`、`prettier`
 
 ### 目录结构
 
@@ -36,7 +35,6 @@
 ├── package.json # 项目依赖
 ├── tsconfig.json # 编辑器配置
 ├── .editorconfig # 编辑器配置
-├── .eslintignore # eslint 检查忽略文件
 ├── .gitignore # git 忽略文件
 ├── .prettierignore # prettier 忽略文件
 ├── .prettierrc.js # 代码风格检查配置文件

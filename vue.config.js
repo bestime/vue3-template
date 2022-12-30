@@ -6,6 +6,37 @@ function getChainWebpack(config) {
   config.plugins.delete('preload')
   config.plugins.delete('prefetch')
 
+  config.module
+    .rule('scss')
+    .oneOf('vue')
+    .use('样式url转化器')
+    .before('postcss-loader')
+    .loader('./loaders/url-replace-loader')
+    .tap(() => {
+      return {
+        mode: 'css',
+        config: {
+          '/static': process.env.VUE_APP_ROUTER_BASE + '/static',
+        }
+      }
+    })
+    .end()
+
+  config.module
+    .rule('vue')
+    .use('标签url转化器')
+    .before('vue-loader')
+    .loader('./loaders/url-replace-loader')
+    .tap(() => {
+      return {
+        mode: 'html',
+        config: {
+          '/static': process.env.VUE_APP_ROUTER_BASE + '/static',
+        }
+      }
+    })
+    .end()
+
   config.plugin('html').tap((args) => {
     args[0].minify = {
       removeComments: false,
@@ -80,8 +111,19 @@ module.exports = {
   css: {
     loaderOptions: {
       css: {
-        // 不编译css中的url
-        url: false,
+        url: {
+          filter: function (url) {
+            if (/^\//.test(url)) {
+              // publicPath 会失效，直接不处理这个
+              return false
+            } else {
+              return true
+            }
+
+            const isStaticSource = /\bmark=static\b/.test(url)
+            return isStaticSource ? false : true
+          },
+        },
       },
       scss: {
         // 向所以scss头部注入公共方法

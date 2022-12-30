@@ -1,8 +1,0 @@
-.history
-public
-dist
-build
-.vscode
-.eslintrc.js
-
-*.d.ts
